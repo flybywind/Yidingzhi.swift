@@ -14,6 +14,7 @@
 		40F6DABD1C01CD730011B511 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40F6DABC1C01CD730011B511 /* Assets.xcassets */; };
 		40F6DAC01C01CD730011B511 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40F6DABE1C01CD730011B511 /* LaunchScreen.storyboard */; };
 		40F6DACB1C01CD730011B511 /* YidingzhiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F6DACA1C01CD730011B511 /* YidingzhiTests.swift */; };
+		40F6DAD61C01F9CA0011B511 /* Rotate3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F6DAD51C01F9CA0011B511 /* Rotate3D.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		40F6DAC61C01CD730011B511 /* YidingzhiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YidingzhiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40F6DACA1C01CD730011B511 /* YidingzhiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YidingzhiTests.swift; sourceTree = "<group>"; };
 		40F6DACC1C01CD730011B511 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		40F6DAD51C01F9CA0011B511 /* Rotate3D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rotate3D.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 				40F6DAB31C01CD730011B511 /* AppDelegate.swift */,
 				40F6DAB51C01CD730011B511 /* art.scnassets */,
 				40F6DAB71C01CD730011B511 /* GameViewController.swift */,
+				40F6DAD51C01F9CA0011B511 /* Rotate3D.swift */,
 				40F6DAB91C01CD730011B511 /* Main.storyboard */,
 				40F6DABC1C01CD730011B511 /* Assets.xcassets */,
 				40F6DABE1C01CD730011B511 /* LaunchScreen.storyboard */,
@@ -203,6 +206,7 @@
 			files = (
 				40F6DAB81C01CD730011B511 /* GameViewController.swift in Sources */,
 				40F6DAB41C01CD730011B511 /* AppDelegate.swift in Sources */,
+				40F6DAD61C01F9CA0011B511 /* Rotate3D.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
