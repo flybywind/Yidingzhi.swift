@@ -4,8 +4,8 @@
   <contributor>
    <authoring_tool>SceneKit Collada Exporter v1.0</authoring_tool>
   </contributor>
-  <created>2015-11-22T14:11:20Z</created>
-  <modified>2015-11-22T14:11:20Z</modified>
+  <created>2015-11-22T16:07:32Z</created>
+  <modified>2015-11-22T16:07:32Z</modified>
   <unit meter="0.010000"/>
   <up_axis>Y_UP</up_axis>
  </asset>
@@ -554,7 +554,7 @@
  <library_visual_scenes>
   <visual_scene id="scene46">
    <node id="ID38" name="Nico_Robin">
-    <matrix>1 0 0 -0.01579523 0 1 0 -207.0444 0 0 1 0 0 0 0 1 </matrix>
+    <matrix>1 0 0 -0.01579523 0 1 0 0 0 0 1 0 0 0 0 1 </matrix>
     <node id="Testa" name="Testa">
      <matrix>1 0 0 -2.77556e-17 0 1 0 373.516 0 0 1 -13.3444 0 0 0 1 </matrix>
      <instance_geometry url="#ID40">

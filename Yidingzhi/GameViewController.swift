@@ -27,8 +27,9 @@ class GameViewController: UIViewController {
         cameraNode.camera = SCNCamera()
         scene.rootNode.addChildNode(cameraNode)
         // place the camera
-        cameraNode.position = SCNVector3(x: 0, y: 0, z: 50)
-        
+        cameraNode.position = SCNVector3(x: 0, y: 300, z: 500)
+
+
         // create and add a light to the scene
         let lightNode = SCNNode()
         lightNode.light = SCNLight()
@@ -46,8 +47,10 @@ class GameViewController: UIViewController {
         
         // retrieve the ship node
         geometryNode = scene.rootNode.childNodeWithName("Nico_Robin", recursively: true)!
-        geometryNode.position = SCNVector3(x: -400, y:380, z: -20)
-        geometryNode.scale = SCNVector3(0.1, 0.1, 0.1)
+        
+        print("girl position:", geometryNode.position)
+//        geometryNode.position = SCNVector3(x:0, y:0, z: 0)
+//        geometryNode.scale = SCNVector3(0.1, 0.1, 0.1)
         // animate the 3d object
 //        geometryNode.runAction(SCNAction.repeatActionForever(SCNAction.rotateByX(0, y: 2, z: 0, duration: 1)))
         
@@ -64,7 +67,7 @@ class GameViewController: UIViewController {
         scnView.showsStatistics = true
         
         // configure the view
-        scnView.backgroundColor = UIColor.blackColor()
+        scnView.backgroundColor = UIColor.whiteColor()
         
         // add a tap gesture recognizer
         let panGesture = UIPanGestureRecognizer(target: self, action: "handlePan:")
@@ -93,8 +96,9 @@ class GameViewController: UIViewController {
         let pan = gestureRecognize.translationInView(self.view)
         print("gesture rotate position:",pan)
         let ry = (Float)(pan.x/5) * (Float)(M_PI/180.0)
-//            rx = (Float)(p.y) * (Float)(M_PI/180.0)
-        let rx:Float = 0
+        let rx = (Float)(pan.y/5) * (Float)(M_PI/180.0)
+//        let rx:Float = 0
+//        let ry:Float = 0
         
         rotate3D.rotate3DAdd(rotX: rx, rotY: ry, rotZ: 0)
         geometryNode.transform = rotate3D.rotate3DMatrix()
