@@ -19,6 +19,9 @@ class GameViewController: UIViewController {
     var geometryNode: SCNNode!
     var cameraNode : SCNNode!
     var textureMaterial : SCNMaterialProperty?
+    let sourcePath = NSBundle.mainBundle()
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // create a new scene
@@ -52,9 +55,9 @@ class GameViewController: UIViewController {
         
         // set texture
         setTextureOn("Abbigliamento",
-            texture2D: self.getTexture("grid"))
+            texture2D: self.getTexture("grid", scale: 10)!)
         setTextureOn("Gambe",
-            texture2D: self.getTexture("baowen"))
+            texture2D: self.getTexture("baowen",scale: 100)!)
         
         // retrieve the SCNView
         let scnView = self.view as! SCNView
@@ -88,11 +91,19 @@ class GameViewController: UIViewController {
         
     }
     
-    func getTexture(textName:String) ->SKTexture {
-        let texture2D = SKTexture.init(imageNamed: textName)
-        texture2D.filteringMode = .Nearest
-        
-        return texture2D
+    func getTexture(textName:String, scale s: Float) ->SKTexture? {
+        if let imagFile = sourcePath.pathForResource(textName,
+                ofType: "jpg") {
+            print("source image path:", imagFile)
+            let imageResize = UIImage(contentsOfFile: imagFile)
+            let texture2D = SKTexture.init(image: imageResize!)
+            texture2D.filteringMode = .Nearest
+            return texture2D
+        } else {
+            print("cant find", textName,"in source.", sourcePath.bundlePath)
+            return nil
+        }
+
     }
     func handleTap(gestureRecognize: UITapGestureRecognizer){
         let position = gestureRecognize.locationInView(self.view)
