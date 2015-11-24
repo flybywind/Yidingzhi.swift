@@ -397,6 +397,7 @@
 				40F6DAD11C01CD730011B511 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		40F6DAD21C01CD730011B511 /* Build configuration list for PBXNativeTarget "YidingzhiTests" */ = {
 			isa = XCConfigurationList;
@@ -405,6 +406,7 @@
 				40F6DAD41C01CD730011B511 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

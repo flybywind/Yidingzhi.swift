@@ -15,27 +15,27 @@ class GameViewController: UIViewController {
     // MARK: properties
     var rotate3D: Rotate3D = Rotate3D(rx: 0, ry: 0, rz: 0)
     var geometryNode: SCNNode!
-    
+    var cameraNode : SCNNode!
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // create a new scene
-        let scene = SCNScene(named: "art.scnassets/Nico_Robin.dae")!
+        let scene = SCNScene(named: "art.scnassets/Nico_Robin.scn")!
         
         // create and add a camera to the scene
-        let cameraNode = SCNNode()
+        cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
+        cameraNode.camera?.automaticallyAdjustsZRange = true;
         scene.rootNode.addChildNode(cameraNode)
         // place the camera
-        cameraNode.position = SCNVector3(x: 0, y: 300, z: 500)
-
-
+        cameraNode.position = SCNVector3(x: 0, y: 0, z: 400)
+        
         // create and add a light to the scene
         let lightNode = SCNNode()
         lightNode.light = SCNLight()
         lightNode.light!.type = SCNLightTypeOmni
         lightNode.light!.color = UIColor.whiteColor()
-        lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
+        lightNode.position = SCNVector3(x: 0, y: 800, z: 250)
         scene.rootNode.addChildNode(lightNode)
         
         // create and add an ambient light to the scene
@@ -47,12 +47,11 @@ class GameViewController: UIViewController {
         
         // retrieve the ship node
         geometryNode = scene.rootNode.childNodeWithName("Nico_Robin", recursively: true)!
-        
         print("girl position:", geometryNode.position)
-//        geometryNode.position = SCNVector3(x:0, y:0, z: 0)
-//        geometryNode.scale = SCNVector3(0.1, 0.1, 0.1)
-        // animate the 3d object
-//        geometryNode.runAction(SCNAction.repeatActionForever(SCNAction.rotateByX(0, y: 2, z: 0, duration: 1)))
+        // constrain
+//        let constraint = SCNLookAtConstraint(target: geometryNode)
+//        constraint.gimbalLockEnabled = true
+//        cameraNode.constraints = [constraint]
         
         // retrieve the SCNView
         let scnView = self.view as! SCNView
@@ -67,11 +66,13 @@ class GameViewController: UIViewController {
         scnView.showsStatistics = true
         
         // configure the view
-        scnView.backgroundColor = UIColor.whiteColor()
+//        scnView.backgroundColor = UIColor.grayColor()
         
         // add a tap gesture recognizer
         let panGesture = UIPanGestureRecognizer(target: self, action: "handlePan:")
+        let pinchGesture = UIPinchGestureRecognizer(target: self, action: "handlePinch:")
         scnView.addGestureRecognizer(panGesture)
+        scnView.addGestureRecognizer(pinchGesture)
 //        let tapGesture = UITapGestureRecognizer(target: self, action: "handleTap:")
 //        scnView.addGestureRecognizer(tapGesture)
     }
@@ -79,29 +80,29 @@ class GameViewController: UIViewController {
     func handleTap(gestureRecognize: UITapGestureRecognizer){
         let position = gestureRecognize.locationInView(self.view)
         print("old location:", geometryNode.position)
-//        geometryNode.pivot =
-//            SCNMatrix4MakeTranslation((Float)(position.x),
-//                (Float)(position.y), geometryNode.position.z)
         geometryNode.position =
             SCNVector3Make(Float(position.x/10),
                 Float(position.y/10), geometryNode.position.z)
         print("new location:", geometryNode.position, "\n================")
         
     }
+    func handlePinch(gestureRecognize: UIPinchGestureRecognizer) {
+        let scale = Float(gestureRecognize.scale)
+        var depth = cameraNode.position.z
+        depth += (50*(scale-1))
+        cameraNode.position.z = depth
+        print("camera depth:", cameraNode.position.z)
+    }
     func handlePan(gestureRecognize: UIPanGestureRecognizer) {
-        // retrieve the SCNView
-//        let scnView = self.view as! SCNView
-        
-        // check what nodes are tapped
         let pan = gestureRecognize.translationInView(self.view)
         print("gesture rotate position:",pan)
-        let ry = (Float)(pan.x/5) * (Float)(M_PI/180.0)
-        let rx = (Float)(pan.y/5) * (Float)(M_PI/180.0)
-//        let rx:Float = 0
-//        let ry:Float = 0
-        
+        let ry = (Float)(pan.x/10) * (Float)(M_PI/180.0)
+        let rx = (Float)(pan.y/10) * (Float)(M_PI/180.0)
         rotate3D.rotate3DAdd(rotX: rx, rotY: ry, rotZ: 0)
-        geometryNode.transform = rotate3D.rotate3DMatrix()
+        let rotMat = rotate3D.rotate3DMatrix()
+        geometryNode.transform = SCNMatrix4Translate(rotMat,
+            geometryNode.position.x, geometryNode.position.y,
+            geometryNode.position.z)
     }
     
     override func shouldAutorotate() -> Bool {
