@@ -9,16 +9,18 @@
 import UIKit
 import QuartzCore
 import SceneKit
+import SpriteKit
 
 class GameViewController: UIViewController {
 
     // MARK: properties
-    var rotate3D: Rotate3D = Rotate3D(rx: 0, ry: 0, rz: 0)
+    var rotate3D: Rotate3D = Rotate3D(rx: 0, ry: 0, rz: 0,
+        maxRx: Float(0.15*M_PI), maxRy: 0, maxRz: 0)
     var geometryNode: SCNNode!
     var cameraNode : SCNNode!
+    var textureMaterial : SCNMaterialProperty?
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // create a new scene
         let scene = SCNScene(named: "art.scnassets/Nico_Robin.scn")!
         
@@ -28,7 +30,7 @@ class GameViewController: UIViewController {
         cameraNode.camera?.automaticallyAdjustsZRange = true;
         scene.rootNode.addChildNode(cameraNode)
         // place the camera
-        cameraNode.position = SCNVector3(x: 0, y: 0, z: 400)
+        cameraNode.position = SCNVector3(x: 0, y: 0, z: 600)
         
         // create and add a light to the scene
         let lightNode = SCNNode()
@@ -47,11 +49,12 @@ class GameViewController: UIViewController {
         
         // retrieve the ship node
         geometryNode = scene.rootNode.childNodeWithName("Nico_Robin", recursively: true)!
-        print("girl position:", geometryNode.position)
-        // constrain
-//        let constraint = SCNLookAtConstraint(target: geometryNode)
-//        constraint.gimbalLockEnabled = true
-//        cameraNode.constraints = [constraint]
+        
+        // set texture
+        setTextureOn("Abbigliamento",
+            texture2D: self.getTexture("grid"))
+        setTextureOn("Gambe",
+            texture2D: self.getTexture("baowen"))
         
         // retrieve the SCNView
         let scnView = self.view as! SCNView
@@ -77,6 +80,20 @@ class GameViewController: UIViewController {
 //        scnView.addGestureRecognizer(tapGesture)
     }
     
+    func setTextureOn(destPart:String, texture2D texture:SKTexture) {
+        let part = geometryNode.childNodeWithName(destPart, recursively: true)!
+        part.geometry!.firstMaterial!.diffuse.contents = texture
+        part.geometry!.firstMaterial!.diffuse.wrapT = .Repeat
+        part.geometry!.firstMaterial!.diffuse.wrapS = .Repeat
+        
+    }
+    
+    func getTexture(textName:String) ->SKTexture {
+        let texture2D = SKTexture.init(imageNamed: textName)
+        texture2D.filteringMode = .Nearest
+        
+        return texture2D
+    }
     func handleTap(gestureRecognize: UITapGestureRecognizer){
         let position = gestureRecognize.locationInView(self.view)
         print("old location:", geometryNode.position)
@@ -91,13 +108,11 @@ class GameViewController: UIViewController {
         var depth = cameraNode.position.z
         depth += (50*(scale-1))
         cameraNode.position.z = depth
-        print("camera depth:", cameraNode.position.z)
     }
     func handlePan(gestureRecognize: UIPanGestureRecognizer) {
         let pan = gestureRecognize.translationInView(self.view)
-        print("gesture rotate position:",pan)
         let ry = (Float)(pan.x/10) * (Float)(M_PI/180.0)
-        let rx = (Float)(pan.y/10) * (Float)(M_PI/180.0)
+        let rx = (Float)(pan.y/50) * (Float)(M_PI/180.0)
         rotate3D.rotate3DAdd(rotX: rx, rotY: ry, rotZ: 0)
         let rotMat = rotate3D.rotate3DMatrix()
         geometryNode.transform = SCNMatrix4Translate(rotMat,
