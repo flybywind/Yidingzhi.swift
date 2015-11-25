@@ -55,9 +55,9 @@ class GameViewController: UIViewController {
         
         // set texture
         setTextureOn("Abbigliamento",
-            texture2D: self.getTexture("grid", scale: 10)!)
+            texture2D: self.getTexture("baowen"))
         setTextureOn("Gambe",
-            texture2D: self.getTexture("baowen",scale: 100)!)
+            texture2D: self.getTexture("grid"))
         
         // retrieve the SCNView
         let scnView = self.view as! SCNView
@@ -83,22 +83,29 @@ class GameViewController: UIViewController {
 //        scnView.addGestureRecognizer(tapGesture)
     }
     
-    func setTextureOn(destPart:String, texture2D texture:SKTexture) {
+    func setTextureOn(destPart:String, texture2D texture:UIImage?) {
+        if texture == nil {
+            print("no texture!")
+            return
+        }
         let part = geometryNode.childNodeWithName(destPart, recursively: true)!
-        part.geometry!.firstMaterial!.diffuse.contents = texture
-        part.geometry!.firstMaterial!.diffuse.wrapT = .Repeat
-        part.geometry!.firstMaterial!.diffuse.wrapS = .Repeat
-        
+        if part.geometry!.firstMaterial == nil {
+            print("creat new material!")
+            part.geometry!.firstMaterial = SCNMaterial()
+        }
+        let fm = part.geometry!.firstMaterial!
+    
+        fm.diffuse.contents = texture
+        fm.diffuse.wrapT = .Mirror
+        fm.diffuse.wrapS = .Mirror
     }
     
-    func getTexture(textName:String, scale s: Float) ->SKTexture? {
+    func getTexture(textName:String) ->UIImage? {
         if let imagFile = sourcePath.pathForResource(textName,
                 ofType: "jpg") {
-            print("source image path:", imagFile)
-            let imageResize = UIImage(contentsOfFile: imagFile)
-            let texture2D = SKTexture.init(image: imageResize!)
-            texture2D.filteringMode = .Nearest
-            return texture2D
+            let imageTexture = UIImage(contentsOfFile: imagFile)
+            
+            return imageTexture
         } else {
             print("cant find", textName,"in source.", sourcePath.bundlePath)
             return nil

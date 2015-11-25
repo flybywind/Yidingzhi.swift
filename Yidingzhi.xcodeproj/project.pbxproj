@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		40308F1D1C04C416005F0A73 /* grid.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40308F1B1C04C416005F0A73 /* grid.jpg */; };
 		40308F201C04C573005F0A73 /* baowen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40308F1F1C04C573005F0A73 /* baowen.jpg */; };
+		4094948D1C054F4D00B442E6 /* grid.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4094948C1C054F4D00B442E6 /* grid.jpg */; };
 		40F6DAB41C01CD730011B511 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F6DAB31C01CD730011B511 /* AppDelegate.swift */; };
 		40F6DAB61C01CD730011B511 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 40F6DAB51C01CD730011B511 /* art.scnassets */; };
 		40F6DAB81C01CD730011B511 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F6DAB71C01CD730011B511 /* GameViewController.swift */; };
@@ -30,8 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		40308F1B1C04C416005F0A73 /* grid.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = grid.jpg; sourceTree = "<group>"; };
 		40308F1F1C04C573005F0A73 /* baowen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = baowen.jpg; path = Resources/baowen.jpg; sourceTree = "<group>"; };
+		4094948C1C054F4D00B442E6 /* grid.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = grid.jpg; path = Resources/grid.jpg; sourceTree = "<group>"; };
 		40F6DAB01C01CD730011B511 /* Yidingzhi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yidingzhi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40F6DAB31C01CD730011B511 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		40F6DAB51C01CD730011B511 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -68,7 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				40308F1F1C04C573005F0A73 /* baowen.jpg */,
-				40308F1B1C04C416005F0A73 /* grid.jpg */,
+				4094948C1C054F4D00B442E6 /* grid.jpg */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -198,10 +198,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				40F6DAB61C01CD730011B511 /* art.scnassets in Resources */,
-				40308F1D1C04C416005F0A73 /* grid.jpg in Resources */,
 				40F6DAC01C01CD730011B511 /* LaunchScreen.storyboard in Resources */,
 				40308F201C04C573005F0A73 /* baowen.jpg in Resources */,
 				40F6DABD1C01CD730011B511 /* Assets.xcassets in Resources */,
+				4094948D1C054F4D00B442E6 /* grid.jpg in Resources */,
 				40F6DABB1C01CD730011B511 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
