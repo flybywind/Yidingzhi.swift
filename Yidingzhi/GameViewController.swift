@@ -21,23 +21,24 @@ class GameViewController: UIViewController, OptionDelegate {
     var textureMaterial : SCNMaterialProperty?
     var textureList : UITableView?
     var xifuPopups : [OptionsWrapper]?
-    var xikuPopups : [OptionsWrapper]?
     var chenshanPopups: [OptionsWrapper]?
     
     let sourcePath = NSBundle.mainBundle()
     
     // MARK: constants
-    let xifuOptions = ["西服领", "排扣", "下摆", "开襟"]
-    let xikuOptions = ["褶皱"]
-    let chenshanOptions = ["衬衫领", "袖子"]
+    let typeOptions = ["西服", "衬衫"]
+    let xifuOptions = ["类型", "西服领", "排扣", "下摆", "开襟", "裤褶"]
+    let chenshanOptions = ["类型", "衬衫领", "袖子"]
     let allDingzhiOption = [
+        "类型":   ["西服", "衬衫"],
         "西服领": ["平驳领", "戗驳领", "青果领"],
         "衬衫领": ["平角领", "大角领", "小角领", "中山领", "元宝领"],
         "排扣":   ["单排扣", "2粒双排扣", "3粒双排扣"],
         "下摆":   ["平角", "圆角"],
         "开襟":   ["单", "双"],
-        "褶皱":   ["单", "双"]
+        "裤褶":   ["单", "双"]
         ]
+    // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         // create a new scene
@@ -97,7 +98,7 @@ class GameViewController: UIViewController, OptionDelegate {
         setupOptions(xifuOptions, typeOption: &xifuPopups)
         showOptions("xifu")
     }
-    // MARK: inter-functions
+    // MARK: options
     func setupOptions(optionList:[String],
             inout typeOption:[OptionsWrapper]?) {
         let screenWidth = self.view!.frame.width
@@ -110,6 +111,7 @@ class GameViewController: UIViewController, OptionDelegate {
 
         typeOption = [OptionsWrapper]()
         
+                
         for i in 0..<optionNum {
             let rect = CGRect(x: blockWidth*(Double(i)) + optionGap,
                 y: 10.0, width: optionWidth, height: optionHeight)
@@ -120,35 +122,49 @@ class GameViewController: UIViewController, OptionDelegate {
         }
     }
     
-    func showOptions(dressType:String) {
+    func dressTypeSwitch(dressType: String) ->(optionList: [String], optionPopup: [OptionsWrapper]?)? {
         var options:[String]
         var popups:[OptionsWrapper]?
         switch dressType {
-            case "xifu":
-                options = xifuOptions
-                popups = xifuPopups
-            case "xiku":
-                options = xikuOptions
-                popups = xikuPopups
-            case "chenshan":
-                options = chenshanOptions
-                popups = chenshanPopups
-            default:
-                print("unsupport dress type")
-                return
-            
+        case "xifu":
+            options = xifuOptions
+            popups = xifuPopups
+        case "chenshan":
+            options = chenshanOptions
+            popups = chenshanPopups
+        default:
+            print("unsupport dress type")
+            return nil
         }
+        return (options, popups)
+    }
+    func showOptions(dressType:String) {
+        let (options, popups) = dressTypeSwitch(dressType)!
         if popups == nil || options.count == 0 {
             print(dressType,"option list not init")
         } else {
             let scnView = self.view as! SCNView
             for o in popups! {
+                o.button.hidden = false
                 scnView.addSubview(o.button)
             }
         }
 
     }
     
+    func hideOptions(dressType:String) {
+        let (options, popups) = dressTypeSwitch(dressType)!
+
+        if popups == nil || options.count == 0 {
+            print(dressType,"option list not init")
+        } else {
+            for o in popups! {
+                o.button.hidden = true
+            }
+        }
+        
+    }
+    // MARK: textures
     func setTextureOn(destPart:String, texture2D texture:UIImage?) {
         if texture == nil {
             print("no texture!")
@@ -160,7 +176,7 @@ class GameViewController: UIViewController, OptionDelegate {
             part.geometry!.firstMaterial = SCNMaterial()
         }
         let fm = part.geometry!.firstMaterial!
-    
+        fm.diffuse.contentsTransform = SCNMatrix4MakeScale(6.0, 6.0, 1.0)
         fm.diffuse.contents = texture
         fm.diffuse.wrapT = .Mirror
         fm.diffuse.wrapS = .Mirror
@@ -180,12 +196,10 @@ class GameViewController: UIViewController, OptionDelegate {
     }
     func handleTap(gestureRecognize: UITapGestureRecognizer){
         let position = gestureRecognize.locationInView(self.view)
-        print("old location:", geometryNode.position)
+
         geometryNode.position =
             SCNVector3Make(Float(position.x/10),
-                Float(position.y/10), geometryNode.position.z)
-        print("new location:", geometryNode.position, "\n================")
-        
+                Float(position.y/10), geometryNode.position.z)        
     }
     func handlePinch(gestureRecognize: UIPinchGestureRecognizer) {
         let scale = Float(gestureRecognize.scale)
@@ -207,6 +221,19 @@ class GameViewController: UIViewController, OptionDelegate {
     // MARK: delegate
     func afterSelect(optionWrapper:OptionsWrapper) {
         print("select", optionWrapper.title, "==>", optionWrapper.selectedOption)
+        if optionWrapper.title == "类型" {
+            if optionWrapper.selectedOption == "西服" {
+                hideOptions("chenshan")
+                showOptions("xifu")
+            }
+            if optionWrapper.selectedOption == "衬衫" {
+                if chenshanPopups == nil {
+                    setupOptions(chenshanOptions, typeOption: &chenshanPopups)
+                }
+                hideOptions("xifu")
+                showOptions("chenshan")
+            }
+        }
         
         //        for (i, o) in xifuPopups!.enumerate() {
         //            if o.selectedOption != "" {
