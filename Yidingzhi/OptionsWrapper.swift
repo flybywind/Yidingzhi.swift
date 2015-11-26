@@ -24,7 +24,7 @@ class OptionsWrapper:NSObject {
     init(rect: CGRect, title:String, options:[String]?) {
         self.alertCtrl = UIAlertController(title: title, message: nil, preferredStyle: .Alert)
         self.title = title
-        self.button = UIButton(type: .InfoLight)
+        self.button = UIButton(type: .System)
         self.button.frame = rect
         self.button.setTitle(title, forState: .Normal)
         self.button.backgroundColor = UIColor.whiteColor()

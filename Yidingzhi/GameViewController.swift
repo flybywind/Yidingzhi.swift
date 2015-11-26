@@ -22,7 +22,7 @@ class GameViewController: UIViewController, OptionDelegate {
     var textureList : UITableView?
     var xifuPopups : [OptionsWrapper]?
     var chenshanPopups: [OptionsWrapper]?
-    
+    var optionHeight:Double = 0
     let sourcePath = NSBundle.mainBundle()
     
     // MARK: constants
@@ -89,12 +89,14 @@ class GameViewController: UIViewController, OptionDelegate {
 //        scnView.backgroundColor = UIColor.grayColor()
         
         // add a tap gesture recognizer
+        let tapGesture = UITapGestureRecognizer(target: self, action: "handleTap:")
         let panGesture = UIPanGestureRecognizer(target: self, action: "handlePan:")
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: "handlePinch:")
+        scnView.addGestureRecognizer(tapGesture)
         scnView.addGestureRecognizer(panGesture)
         scnView.addGestureRecognizer(pinchGesture)
-//        let tapGesture = UITapGestureRecognizer(target: self, action: "handleTap:")
-//        scnView.addGestureRecognizer(tapGesture)
+
+
         setupOptions(xifuOptions, typeOption: &xifuPopups)
         showOptions("xifu")
     }
@@ -106,11 +108,10 @@ class GameViewController: UIViewController, OptionDelegate {
         
         let blockWidth = Double(screenWidth)/(Double(optionNum))
         let optionWidth = blockWidth*0.8
-        let optionHeight = optionWidth*0.5
         let optionGap = blockWidth*0.1
 
         typeOption = [OptionsWrapper]()
-        
+        optionHeight = min(optionWidth*0.5, 30.0)
                 
         for i in 0..<optionNum {
             let rect = CGRect(x: blockWidth*(Double(i)) + optionGap,
@@ -194,12 +195,25 @@ class GameViewController: UIViewController, OptionDelegate {
         }
 
     }
+    
+    // MARK: gesture
     func handleTap(gestureRecognize: UITapGestureRecognizer){
-        let position = gestureRecognize.locationInView(self.view)
+        let scnView = self.view as! SCNView
+        // check what nodes are tapped
+        let p = gestureRecognize.locationInView(scnView)
+        let hitResults = scnView.hitTest(p, options: nil)
+        // check that we clicked on at least one object
+        if hitResults.count > 0 {
+            // retrieved the first clicked object
+            let result: AnyObject! = hitResults[0]
+            
+            // get its material
+            let tapedMaterial = result.node!.geometry!.firstMaterial!
+            
+//            print("taped:", tapedMaterial, tapedMaterial.name)
+            
+        }
 
-        geometryNode.position =
-            SCNVector3Make(Float(position.x/10),
-                Float(position.y/10), geometryNode.position.z)        
     }
     func handlePinch(gestureRecognize: UIPinchGestureRecognizer) {
         let scale = Float(gestureRecognize.scale)
