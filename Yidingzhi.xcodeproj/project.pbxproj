@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		40308F201C04C573005F0A73 /* baowen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40308F1F1C04C573005F0A73 /* baowen.jpg */; };
 		4094948D1C054F4D00B442E6 /* grid.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4094948C1C054F4D00B442E6 /* grid.jpg */; };
+		409494911C05E82100B442E6 /* OptionsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409494901C05E82100B442E6 /* OptionsWrapper.swift */; };
 		40F6DAB41C01CD730011B511 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F6DAB31C01CD730011B511 /* AppDelegate.swift */; };
 		40F6DAB61C01CD730011B511 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 40F6DAB51C01CD730011B511 /* art.scnassets */; };
 		40F6DAB81C01CD730011B511 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F6DAB71C01CD730011B511 /* GameViewController.swift */; };
@@ -32,6 +33,7 @@
 /* Begin PBXFileReference section */
 		40308F1F1C04C573005F0A73 /* baowen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = baowen.jpg; path = Resources/baowen.jpg; sourceTree = "<group>"; };
 		4094948C1C054F4D00B442E6 /* grid.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = grid.jpg; path = Resources/grid.jpg; sourceTree = "<group>"; };
+		409494901C05E82100B442E6 /* OptionsWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsWrapper.swift; sourceTree = "<group>"; };
 		40F6DAB01C01CD730011B511 /* Yidingzhi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yidingzhi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40F6DAB31C01CD730011B511 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		40F6DAB51C01CD730011B511 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 			children = (
 				40F6DAB31C01CD730011B511 /* AppDelegate.swift */,
 				40F6DAB71C01CD730011B511 /* GameViewController.swift */,
+				409494901C05E82100B442E6 /* OptionsWrapper.swift */,
 				40F6DAD51C01F9CA0011B511 /* Rotate3D.swift */,
 				40F6DAB91C01CD730011B511 /* Main.storyboard */,
 				40F6DAB51C01CD730011B511 /* art.scnassets */,
@@ -221,6 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				40F6DAB81C01CD730011B511 /* GameViewController.swift in Sources */,
+				409494911C05E82100B442E6 /* OptionsWrapper.swift in Sources */,
 				40F6DAB41C01CD730011B511 /* AppDelegate.swift in Sources */,
 				40F6DAD61C01F9CA0011B511 /* Rotate3D.swift in Sources */,
 			);

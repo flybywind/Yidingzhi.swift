@@ -11,7 +11,7 @@ import QuartzCore
 import SceneKit
 import SpriteKit
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, OptionDelegate {
 
     // MARK: properties
     var rotate3D: Rotate3D = Rotate3D(rx: 0, ry: 0, rz: 0,
@@ -19,9 +19,25 @@ class GameViewController: UIViewController {
     var geometryNode: SCNNode!
     var cameraNode : SCNNode!
     var textureMaterial : SCNMaterialProperty?
+    var textureList : UITableView?
+    var xifuPopups : [OptionsWrapper]?
+    var xikuPopups : [OptionsWrapper]?
+    var chenshanPopups: [OptionsWrapper]?
+    
     let sourcePath = NSBundle.mainBundle()
     
-
+    // MARK: constants
+    let xifuOptions = ["西服领", "排扣", "下摆", "开襟"]
+    let xikuOptions = ["褶皱"]
+    let chenshanOptions = ["衬衫领", "袖子"]
+    let allDingzhiOption = [
+        "西服领": ["平驳领", "戗驳领", "青果领"],
+        "衬衫领": ["平角领", "大角领", "小角领", "中山领", "元宝领"],
+        "排扣":   ["单排扣", "2粒双排扣", "3粒双排扣"],
+        "下摆":   ["平角", "圆角"],
+        "开襟":   ["单", "双"],
+        "褶皱":   ["单", "双"]
+        ]
     override func viewDidLoad() {
         super.viewDidLoad()
         // create a new scene
@@ -65,9 +81,6 @@ class GameViewController: UIViewController {
         // set the scene to the view
         scnView.scene = scene
         
-        // allows the user to manipulate the camera
-//        scnView.allowsCameraControl = true
-        
         // show statistics such as fps and timing information
         scnView.showsStatistics = true
         
@@ -81,6 +94,59 @@ class GameViewController: UIViewController {
         scnView.addGestureRecognizer(pinchGesture)
 //        let tapGesture = UITapGestureRecognizer(target: self, action: "handleTap:")
 //        scnView.addGestureRecognizer(tapGesture)
+        setupOptions(xifuOptions, typeOption: &xifuPopups)
+        showOptions("xifu")
+    }
+    
+    func setupOptions(optionList:[String],
+            inout typeOption:[OptionsWrapper]?) {
+        let screenWidth = self.view!.frame.width
+        let optionNum = optionList.count
+        
+        let blockWidth = Double(screenWidth)/(Double(optionNum))
+        let optionWidth = blockWidth*0.8
+        let optionHeight = optionWidth*0.5
+        let optionGap = blockWidth*0.1
+
+        typeOption = [OptionsWrapper]()
+        
+        for i in 0..<optionNum {
+            let rect = CGRect(x: blockWidth*(Double(i)) + optionGap,
+                y: 10.0, width: optionWidth, height: optionHeight)
+            let title = optionList[i]
+            let oneOption = OptionsWrapper(rect: rect, title: title, options: allDingzhiOption[title])
+            oneOption.onTouch(self)
+            typeOption!.append(oneOption)
+        }
+    }
+    
+    func showOptions(dressType:String) {
+        var options:[String]
+        var popups:[OptionsWrapper]?
+        switch dressType {
+            case "xifu":
+                options = xifuOptions
+                popups = xifuPopups
+            case "xiku":
+                options = xikuOptions
+                popups = xikuPopups
+            case "chenshan":
+                options = chenshanOptions
+                popups = chenshanPopups
+            default:
+                print("unsupport dress type")
+                return
+            
+        }
+        if popups == nil || options.count == 0 {
+            print(dressType,"option list not init")
+        } else {
+            let scnView = self.view as! SCNView
+            for o in popups! {
+                scnView.addSubview(o.button)
+            }
+        }
+
     }
     
     func setTextureOn(destPart:String, texture2D texture:UIImage?) {
@@ -138,6 +204,28 @@ class GameViewController: UIViewController {
             geometryNode.position.z)
     }
     
+    // MARK: delegate
+    func afterSelect(optionWrapper:OptionsWrapper) {
+        print("select", optionWrapper.title, "==>", optionWrapper.selectedOption)
+        
+        //        for (i, o) in xifuPopups!.enumerate() {
+        //            if o.selectedOption != "" {
+        //                print(xifuOptions[i], "==>", o.selectedOption)
+        //            }
+        //        }
+        //
+        //        for (i, o) in xikuPopups!.enumerate() {
+        //            if o.selectedOption != "" {
+        //                print(xikuOptions[i], "==>", o.selectedOption)
+        //            }
+        //        }
+        //
+        //        for (i, o) in chenshanPopups!.enumerate() {
+        //            if o.selectedOption != "" {
+        //                print(chenshanOptions[i], "==>", o.selectedOption)
+        //            }
+        //        }
+    }
     override func shouldAutorotate() -> Bool {
         return true
     }
