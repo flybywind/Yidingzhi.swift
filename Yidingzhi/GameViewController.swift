@@ -14,6 +14,7 @@ import SpriteKit
 class GameViewController: UIViewController, OptionDelegate {
 
     // MARK: properties
+    var suitStatus :SuitStatus?
     var rotate3D: Rotate3D = Rotate3D(rx: 0, ry: 0, rz: 0,
         maxRx: Float(0.15*M_PI), maxRy: 0, maxRz: 0)
     var geometryNode: SCNNode!
@@ -197,7 +198,7 @@ class GameViewController: UIViewController, OptionDelegate {
     }
     
     // MARK: gesture
-    func handleTap(gestureRecognize: UITapGestureRecognizer){
+    @IBAction func handleTap(gestureRecognize: UITapGestureRecognizer) throws {
         let scnView = self.view as! SCNView
         // check what nodes are tapped
         let p = gestureRecognize.locationInView(scnView)
@@ -208,10 +209,18 @@ class GameViewController: UIViewController, OptionDelegate {
             let result: AnyObject! = hitResults[0]
             
             // get its material
-            let tapedMaterial = result.node!.geometry!.firstMaterial!
-            
-//            print("taped:", tapedMaterial, tapedMaterial.name)
-            
+            let tapedMaterial = result.node!.geometry!.firstMaterial
+            if let m = tapedMaterial {
+                if m.name == "texture" {
+                    if suitStatus == nil {
+                        suitStatus = SuitStatus()
+                    }
+                    suitStatus!.selectPart = result.node!.name
+                    performSegueWithIdentifier("texture", sender: suitStatus)
+                }
+            }else{
+                throw YdzError.Debug(msg: "没有设置material！")
+            }
         }
 
     }
@@ -235,10 +244,16 @@ class GameViewController: UIViewController, OptionDelegate {
     // MARK: delegate
     func afterSelect(optionWrapper:OptionsWrapper) {
         print("select", optionWrapper.title, "==>", optionWrapper.selectedOption)
+        if suitStatus == nil {
+            suitStatus = SuitStatus()
+        }
+        suitStatus!.dressType = optionWrapper.title
+
         if optionWrapper.title == "类型" {
             if optionWrapper.selectedOption == "西服" {
                 hideOptions("chenshan")
                 showOptions("xifu")
+
             }
             if optionWrapper.selectedOption == "衬衫" {
                 if chenshanPopups == nil {
@@ -248,6 +263,7 @@ class GameViewController: UIViewController, OptionDelegate {
                 showOptions("chenshan")
             }
         }
+        
         
         //        for (i, o) in xifuPopups!.enumerate() {
         //            if o.selectedOption != "" {
@@ -267,7 +283,15 @@ class GameViewController: UIViewController, OptionDelegate {
         //            }
         //        }
     }
+    
     // MARK: override
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        if segue.identifier == "texture" {
+            if let vc = segue.destinationViewController as? FabricTableViewController {
+                vc.receiveData = sender as? SuitStatus
+            }
+        }
+    }
     override func shouldAutorotate() -> Bool {
         return true
     }

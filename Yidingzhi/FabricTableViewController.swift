@@ -10,14 +10,33 @@ import UIKit
 
 class FabricTableViewController: UITableViewController {
 
+    // MARK: properties
+    var receiveData : SuitStatus?
+    var contents: [FabricInfo]?
+    // MARK: constant
+    let fabricMap = [
+        "西服":[
+            FabricInfo(Fid: "abc/de 100", FabricBrand: "世佳宝", FabricMaterial: "100%羊毛", FabricPrice: 2000, FabricImage: "xifu_1"),
+            FabricInfo(Fid: "abc/de 200", FabricBrand: "维达莱", FabricMaterial: "90%羊毛 10%羊绒", FabricPrice: 5000, FabricImage: "xifu_2"),
+            FabricInfo(Fid: "abc/de 300", FabricBrand: "世佳宝", FabricMaterial: "100%羊毛", FabricPrice: 2000, FabricImage: "xifu_1"),
+            FabricInfo(Fid: "abc/de 400", FabricBrand: "维达莱", FabricMaterial: "90%羊毛 10%羊绒", FabricPrice: 5000, FabricImage: "xifu_2"),
+        ],
+        "衬衫":[
+            FabricInfo(Fid: "123-56 2", FabricBrand: "1857", FabricMaterial: "100%棉", FabricPrice: 550, FabricImage: "chenshan_1"),
+            FabricInfo(Fid: "123-56 4", FabricBrand: "1857", FabricMaterial: "100%棉", FabricPrice: 1550, FabricImage: "chenshan_2"),
+            FabricInfo(Fid: "123-56 6", FabricBrand: "鲁泰", FabricMaterial: "100%棉", FabricPrice: 550, FabricImage: "chenshan_1"),
+            FabricInfo(Fid: "123-56 8", FabricBrand: "鲁泰", FabricMaterial: "100%棉", FabricPrice: 1550, FabricImage: "chenshan_2"),
+        ]
+    ]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        if let s = receiveData {
+            print("receive data:", s)
+            contents = fabricMap[s.dressType]
+        }else {
+            print("not receive data!")
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,23 +48,30 @@ class FabricTableViewController: UITableViewController {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        if let c = contents {
+            return c.count
+        }else {
+            return 0
+        }
     }
 
-    /*
+
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-
-        // Configure the cell...
-
-        return cell
+        let cell = tableView.dequeueReusableCellWithIdentifier("FabricCell", forIndexPath: indexPath) as! FabricDetailCell
+        if let c = contents {
+            let fabricInfo = c[indexPath.row]
+            cell.setInfo(fabricInfo)
+            return cell
+        } else {
+            return FabricDetailCell()
+        }
     }
-    */
+
 
     /*
     // Override to support conditional editing of the table view.

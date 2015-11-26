@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		40308F201C04C573005F0A73 /* baowen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40308F1F1C04C573005F0A73 /* baowen.jpg */; };
+		4077E6001C06F09A007917E0 /* SuitStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077E5FF1C06F09A007917E0 /* SuitStatus.swift */; };
+		4077E6021C07040C007917E0 /* FabricDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077E6011C07040C007917E0 /* FabricDetailCell.swift */; };
 		4094948D1C054F4D00B442E6 /* grid.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4094948C1C054F4D00B442E6 /* grid.jpg */; };
 		409494911C05E82100B442E6 /* OptionsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409494901C05E82100B442E6 /* OptionsWrapper.swift */; };
 		409494931C06B09E00B442E6 /* YdzError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409494921C06B09E00B442E6 /* YdzError.swift */; };
@@ -34,6 +36,8 @@
 
 /* Begin PBXFileReference section */
 		40308F1F1C04C573005F0A73 /* baowen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = baowen.jpg; path = Resources/baowen.jpg; sourceTree = "<group>"; };
+		4077E5FF1C06F09A007917E0 /* SuitStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuitStatus.swift; sourceTree = "<group>"; };
+		4077E6011C07040C007917E0 /* FabricDetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FabricDetailCell.swift; sourceTree = "<group>"; };
 		4094948C1C054F4D00B442E6 /* grid.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = grid.jpg; path = Resources/grid.jpg; sourceTree = "<group>"; };
 		409494901C05E82100B442E6 /* OptionsWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsWrapper.swift; sourceTree = "<group>"; };
 		409494921C06B09E00B442E6 /* YdzError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YdzError.swift; sourceTree = "<group>"; };
@@ -102,8 +106,10 @@
 			children = (
 				40F6DAB31C01CD730011B511 /* AppDelegate.swift */,
 				40F6DAB71C01CD730011B511 /* GameViewController.swift */,
-				409494901C05E82100B442E6 /* OptionsWrapper.swift */,
 				409494981C06C8E100B442E6 /* FabricTableViewController.swift */,
+				4077E5FF1C06F09A007917E0 /* SuitStatus.swift */,
+				4077E6011C07040C007917E0 /* FabricDetailCell.swift */,
+				409494901C05E82100B442E6 /* OptionsWrapper.swift */,
 				409494921C06B09E00B442E6 /* YdzError.swift */,
 				40F6DAD51C01F9CA0011B511 /* Rotate3D.swift */,
 				40F6DAB91C01CD730011B511 /* Main.storyboard */,
@@ -231,6 +237,8 @@
 			files = (
 				409494991C06C8E100B442E6 /* FabricTableViewController.swift in Sources */,
 				409494931C06B09E00B442E6 /* YdzError.swift in Sources */,
+				4077E6001C06F09A007917E0 /* SuitStatus.swift in Sources */,
+				4077E6021C07040C007917E0 /* FabricDetailCell.swift in Sources */,
 				40F6DAB81C01CD730011B511 /* GameViewController.swift in Sources */,
 				409494911C05E82100B442E6 /* OptionsWrapper.swift in Sources */,
 				40F6DAB41C01CD730011B511 /* AppDelegate.swift in Sources */,
