@@ -58,8 +58,7 @@ class OptionsWrapper:NSObject {
         self.button.addTarget(self, action: "popUp:",
             forControlEvents: .TouchUpInside)
     }
-    private func popUp(sender: UIButton!) {
-        print("delegate popup alert!")
+    func popUp(sender: UIButton!) {
         self.delegate!.presentViewController(self.alertCtrl, animated: true, completion: nil)
     }
 }

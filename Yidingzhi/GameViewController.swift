@@ -97,7 +97,7 @@ class GameViewController: UIViewController, OptionDelegate {
         setupOptions(xifuOptions, typeOption: &xifuPopups)
         showOptions("xifu")
     }
-    
+    // MARK: inter-functions
     func setupOptions(optionList:[String],
             inout typeOption:[OptionsWrapper]?) {
         let screenWidth = self.view!.frame.width
@@ -226,6 +226,7 @@ class GameViewController: UIViewController, OptionDelegate {
         //            }
         //        }
     }
+    // MARK: override
     override func shouldAutorotate() -> Bool {
         return true
     }
