@@ -220,6 +220,7 @@ class GameViewController: UIViewController, OptionDelegate {
                         suitStatus = SuitStatus()
                     }
                     suitStatus!.selectPart = result.node!.name
+                    log.debug("select part: \(result.node!.name)")
                     performSegueWithIdentifier("texture", sender: suitStatus)
                 }
             }else{
@@ -294,6 +295,14 @@ class GameViewController: UIViewController, OptionDelegate {
                 vc.receiveData = sender as? SuitStatus
             }
             
+        }
+    }
+    @IBAction func afterSelectFabric(sender: UIStoryboardSegue) {
+        if let fabricTable = sender.sourceViewController as? FabricTableViewController {
+            if let selectFabric = fabricTable.receiveData?.selectFabric {
+                log.debug("receive image, render texture \(selectFabric.description) on \(suitStatus.selectPart!)")
+                self.setTextureOn(suitStatus.selectPart!, texture2D: selectFabric)
+            }
         }
     }
     override func shouldAutorotate() -> Bool {

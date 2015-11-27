@@ -10,6 +10,10 @@ import UIKit
 
 class FabricTableViewController: UITableViewController {
 
+    @IBAction func cancelView(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     // MARK: properties
     var receiveData : SuitStatus?
     var contents: [FabricInfo]?
@@ -109,14 +113,19 @@ class FabricTableViewController: UITableViewController {
     }
     */
 
-    /*
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        let cellRow = self.tableView.indexPathForSelectedRow!
+        let selectedCell = self.tableView.cellForRowAtIndexPath(cellRow) as! FabricDetailCell
+        receiveData!.selectFabric = selectedCell.fabricImage.image
+        log.debug("select row \(cellRow.row): \(receiveData!.debugDescription)")
+        
     }
-    */
+
 
 }

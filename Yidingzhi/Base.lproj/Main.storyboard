@@ -24,7 +24,7 @@
             </objects>
             <point key="canvasLocation" x="986" y="253"/>
         </scene>
-        <!--Fabric Table View Controller-->
+        <!--选择面料-->
         <scene sceneID="OOP-dm-dtf">
             <objects>
                 <tableViewController id="Le2-JW-gD9" customClass="FabricTableViewController" customModule="Yidingzhi" customModuleProvider="target" sceneMemberID="viewController">
@@ -103,6 +103,7 @@
                                     <outlet property="fidLabel" destination="yqc-N8-9eu" id="An0-bq-qlh"/>
                                     <outlet property="materialLabel" destination="ErZ-zs-aa9" id="Sf7-5E-400"/>
                                     <outlet property="priceLabel" destination="lSu-rW-HJ7" id="bd0-1K-cPV"/>
+                                    <segue destination="o1k-gx-Y9c" kind="unwind" unwindAction="afterSelectFabric:" id="boB-7R-I5Z"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -111,11 +112,18 @@
                             <outlet property="delegate" destination="Le2-JW-gD9" id="4BD-vw-f26"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="XHF-dT-Wcl"/>
+                    <navigationItem key="navigationItem" title="选择面料" id="yb5-dg-K1A">
+                        <barButtonItem key="rightBarButtonItem" title="取消" id="KMC-3V-zEH">
+                            <connections>
+                                <action selector="cancelView:" destination="Le2-JW-gD9" id="C3g-ox-b8W"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q0t-ul-dBr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="o1k-gx-Y9c" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2412" y="253"/>
+            <point key="canvasLocation" x="2427" y="253"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="d1B-sY-snx">
@@ -133,7 +141,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0yi-HB-c0O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1732" y="253"/>
+            <point key="canvasLocation" x="1680" y="253"/>
         </scene>
     </scenes>
 </document>

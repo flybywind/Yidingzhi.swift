@@ -6,12 +6,12 @@
 //  Copyright © 2015年 flybywind. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class SuitStatus : NSObject{
     var dressType:String
     var selectPart:String?
-    var selectFabric: FabricInfo?
+    var selectFabric: UIImage?
     
     override init() {
         dressType = "西服"
