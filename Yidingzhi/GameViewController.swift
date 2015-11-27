@@ -11,10 +11,11 @@ import QuartzCore
 import SceneKit
 import SpriteKit
 
+
 class GameViewController: UIViewController, OptionDelegate {
 
     // MARK: properties
-    var suitStatus :SuitStatus?
+    var suitStatus :SuitStatus!
     var rotate3D: Rotate3D = Rotate3D(rx: 0, ry: 0, rz: 0,
         maxRx: Float(0.15*M_PI), maxRy: 0, maxRz: 0)
     var geometryNode: SCNNode!
@@ -37,11 +38,13 @@ class GameViewController: UIViewController, OptionDelegate {
         "排扣":   ["单排扣", "2粒双排扣", "3粒双排扣"],
         "下摆":   ["平角", "圆角"],
         "开襟":   ["单", "双"],
-        "裤褶":   ["单", "双"]
+        "裤褶":   ["单", "双"],
+        "袖子":   ["平角","圆角","截角","大圆角"]
         ]
     // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        suitStatus = SuitStatus()
         // create a new scene
         let scene = SCNScene(named: "art.scnassets/Nico_Robin.scn")!
         
@@ -100,6 +103,7 @@ class GameViewController: UIViewController, OptionDelegate {
 
         setupOptions(xifuOptions, typeOption: &xifuPopups)
         showOptions("xifu")
+
     }
     // MARK: options
     func setupOptions(optionList:[String],
@@ -135,7 +139,7 @@ class GameViewController: UIViewController, OptionDelegate {
             options = chenshanOptions
             popups = chenshanPopups
         default:
-            print("unsupport dress type")
+            log.debug("unsupport dress type")
             return nil
         }
         return (options, popups)
@@ -143,7 +147,7 @@ class GameViewController: UIViewController, OptionDelegate {
     func showOptions(dressType:String) {
         let (options, popups) = dressTypeSwitch(dressType)!
         if popups == nil || options.count == 0 {
-            print(dressType,"option list not init")
+            log.debug("\(dressType), option list not init")
         } else {
             let scnView = self.view as! SCNView
             for o in popups! {
@@ -158,7 +162,7 @@ class GameViewController: UIViewController, OptionDelegate {
         let (options, popups) = dressTypeSwitch(dressType)!
 
         if popups == nil || options.count == 0 {
-            print(dressType,"option list not init")
+            log.debug("\(dressType), option list not init")
         } else {
             for o in popups! {
                 o.button.hidden = true
@@ -169,12 +173,12 @@ class GameViewController: UIViewController, OptionDelegate {
     // MARK: textures
     func setTextureOn(destPart:String, texture2D texture:UIImage?) {
         if texture == nil {
-            print("no texture!")
+            log.debug("no texture!")
             return
         }
         let part = geometryNode.childNodeWithName(destPart, recursively: true)!
         if part.geometry!.firstMaterial == nil {
-            print("creat new material!")
+            log.debug("creat new material!")
             part.geometry!.firstMaterial = SCNMaterial()
         }
         let fm = part.geometry!.firstMaterial!
@@ -191,14 +195,14 @@ class GameViewController: UIViewController, OptionDelegate {
             
             return imageTexture
         } else {
-            print("cant find", textName,"in source.", sourcePath.bundlePath)
+            log.debug("cant find \(textName) in source. \(sourcePath.bundlePath)")
             return nil
         }
 
     }
     
     // MARK: gesture
-    @IBAction func handleTap(gestureRecognize: UITapGestureRecognizer) throws {
+    func handleTap(gestureRecognize: UITapGestureRecognizer) {
         let scnView = self.view as! SCNView
         // check what nodes are tapped
         let p = gestureRecognize.locationInView(scnView)
@@ -219,7 +223,7 @@ class GameViewController: UIViewController, OptionDelegate {
                     performSegueWithIdentifier("texture", sender: suitStatus)
                 }
             }else{
-                throw YdzError.Debug(msg: "没有设置material！")
+                log.debug("没有设置material！")
             }
         }
 
@@ -243,22 +247,19 @@ class GameViewController: UIViewController, OptionDelegate {
     
     // MARK: delegate
     func afterSelect(optionWrapper:OptionsWrapper) {
-        print("select", optionWrapper.title, "==>", optionWrapper.selectedOption)
-        if suitStatus == nil {
-            suitStatus = SuitStatus()
-        }
-        suitStatus!.dressType = optionWrapper.title
+        log.debug("select \(optionWrapper.title) ==> \(optionWrapper.selectedOption)")
 
         if optionWrapper.title == "类型" {
             if optionWrapper.selectedOption == "西服" {
                 hideOptions("chenshan")
                 showOptions("xifu")
-
+                suitStatus?.dressType = "西服"
             }
             if optionWrapper.selectedOption == "衬衫" {
                 if chenshanPopups == nil {
                     setupOptions(chenshanOptions, typeOption: &chenshanPopups)
                 }
+                suitStatus?.dressType = "衬衫"
                 hideOptions("xifu")
                 showOptions("chenshan")
             }
@@ -267,19 +268,19 @@ class GameViewController: UIViewController, OptionDelegate {
         
         //        for (i, o) in xifuPopups!.enumerate() {
         //            if o.selectedOption != "" {
-        //                print(xifuOptions[i], "==>", o.selectedOption)
+        //                log.debug(xifuOptions[i], "==>", o.selectedOption)
         //            }
         //        }
         //
         //        for (i, o) in xikuPopups!.enumerate() {
         //            if o.selectedOption != "" {
-        //                print(xikuOptions[i], "==>", o.selectedOption)
+        //                log.debug(xikuOptions[i], "==>", o.selectedOption)
         //            }
         //        }
         //
         //        for (i, o) in chenshanPopups!.enumerate() {
         //            if o.selectedOption != "" {
-        //                print(chenshanOptions[i], "==>", o.selectedOption)
+        //                log.debug(chenshanOptions[i], "==>", o.selectedOption)
         //            }
         //        }
     }
@@ -287,9 +288,12 @@ class GameViewController: UIViewController, OptionDelegate {
     // MARK: override
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if segue.identifier == "texture" {
-            if let vc = segue.destinationViewController as? FabricTableViewController {
+            let navCtrl = segue.destinationViewController as! UINavigationController
+            
+            if let vc = navCtrl.viewControllers[0] as? FabricTableViewController {
                 vc.receiveData = sender as? SuitStatus
             }
+            
         }
     }
     override func shouldAutorotate() -> Bool {

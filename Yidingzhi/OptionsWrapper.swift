@@ -33,7 +33,7 @@ class OptionsWrapper:NSObject {
         // init必须在子类的所有初始化完成后执行！
         super.init()
         if options == nil {
-            print("options list not set!")
+            log.debug("For \(title): options list not set!")
             return
         }
         for (i, _) in options!.enumerate() {
@@ -43,7 +43,7 @@ class OptionsWrapper:NSObject {
                     self.selectedOption = self.options![i]
                     self.alertCtrl.dismissViewControllerAnimated(true, completion: nil)
                     if self.delegate == nil {
-                        print("no set touch delegate")
+                        log.debug("no set touch delegate")
                     } else {
                         self.delegate!.afterSelect(self)
                     }

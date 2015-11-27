@@ -32,10 +32,10 @@ class FabricTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if let s = receiveData {
-            print("receive data:", s)
+            log.debug("receive data: \(s.dressType)")
             contents = fabricMap[s.dressType]
         }else {
-            print("not receive data!")
+            log.debug("not receive data!")
         }
     }
 
@@ -66,6 +66,7 @@ class FabricTableViewController: UITableViewController {
         if let c = contents {
             let fabricInfo = c[indexPath.row]
             cell.setInfo(fabricInfo)
+            self.tableView.rowHeight = 160
             return cell
         } else {
             return FabricDetailCell()

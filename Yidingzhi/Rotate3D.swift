@@ -21,10 +21,7 @@ struct Rotate3D {
         var mat = SCNMatrix4MakeRotation(rx, 1, 0, 0)
         mat = SCNMatrix4Rotate(mat, ry, 0, 1, 0)
         mat = SCNMatrix4Rotate(mat, rz, 0, 0, 1)
-//        print("rotate around x by", rx)
-//        print("rotate around y by", ry)
-//        print("rotate around z by", rz)
-//        print("================")
+
         return mat
     }
 

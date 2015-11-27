@@ -30,7 +30,7 @@ class FabricDetailCell: UITableViewCell {
             ofType: "jpg") {
             fabricImage.image = UIImage(contentsOfFile: imagFile)
         } else {
-            print("no such fabric picture:", fabricInfo.FabricImage)
+            log.debug("no such fabric picture: \(fabricInfo.FabricImage)")
         }
     }
 
